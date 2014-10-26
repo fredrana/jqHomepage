@@ -1,0 +1,116 @@
+﻿#outerDiv
+{
+    height: 400px;
+    margin-bottom: 10px;
+}
+
+#tabs .ui-tabs-nav .ui-icon
+{
+    display: inline-block;
+}
+
+.TextBox, .TextArea
+{
+    width: 400px;
+    background: #f7f7f7;
+    font-family: Tahoma;
+    font-size: 15px;
+    color: #000000;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+
+.ui-tooltip-content
+{
+    font-family: Tahoma,Lucida Grande,Lucida Sans,Arial,sans-serif;
+    color: #000000;
+}
+
+.ui-widget-header
+{
+    background-color: #000000;
+    font-weight: normal;
+}
+
+label
+{
+    color: #000000;
+    font-size: 15px;
+    font-family: Tahoma;
+}
+
+input[type=submit]
+{
+    margin-top: 5px;
+}
+
+.horizontal
+{
+    display: inline-block;
+}
+
+.vertical
+{
+    display: block;
+}
+
+/*Slideshow*/
+
+
+
+/*End Slideshow*/
+
+/*
+This section is for defing theme from JQUERYUI theme builder
+
+    ***Font Settings    
+    Family: Tahoma
+    Weight: Normal
+    Size: 15px
+    
+    ***Corner Radius
+    Corners: 3px
+
+    ***Header Toolbar
+    Background color & texture: #dadee4 75%
+    Border: #d3d3d3 Text\icon:#000000
+
+    ***Content
+    Background color & Texture: #f0f0f0 75%
+    Border: #aaaaaa Text\Icon: #000000
+
+    ***Clickable: default state
+    Background color & Texture: #e3e5ea 75%
+    Border: #aaaaaa Text\Icon:#000000
+
+    ***Clickable: Hover State
+    Background color % Texture: #dadada 75%
+    Border: #999999 Text: #212121 Icon:#454545
+
+    ***Clickable: Active State
+    Background color % Texture: #ffffff 75%
+    Border: #aaaaaa Text: #212121 Icon: #454545
+
+    ***Highlight
+    Background color & Texture: #fbf9ee 55%
+    Border: #aaaaaa Text: #212121 #Icon: #454545
+
+    ***Error
+    Background color & Texture: #fef1ec 95%
+    Border: #cd0a0a Text\Icon: ##cd0a0a
+
+    ***Modal Screen for Overlays
+    Background color & Texture: #aaaaaa 0%
+    Overlay Opacity: 30#
+
+    #Drop Shadows
+    background color & Texture: #aaaaaa 0%
+    Shadow opacity: 30%
+    Shadow: 8px
+    thickness:
+        Top:-8px
+        Left: -8px
+        Corners: 8px
+*/
+
