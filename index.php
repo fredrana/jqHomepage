@@ -10,13 +10,6 @@
 
     <script type="text/javascript">
 
-        $(function () {
-            var currentbar = $(".progressbar");
-            currentbar.progressbar({
-                value: 69
-            });
-        });
-
     $(function () {
         $("#tabs").tabs({
             beforeLoad: function (event, ui) {
@@ -30,14 +23,7 @@
     });
     
     $(function () {
-        $("#accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
-    });
-
-    var timer = null;
-
-    $(document).ready(function () {
-        timer = setInterval(function () { $("#image").hide("fade", 1000, switchImage) }, 5000);
-        $("#slideshow").css("cursor", "url('img/pause2.png'),default");
+        $(".accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
     });
 
     </script>
@@ -49,17 +35,30 @@
     </script>
     <div id="tabs">
  	    <ul>
-			<?php include 'dbconnector.php';?>
+			<?php 
+				include 'dbconnector.php';
+				generateTabs();
+			?>
 		</ul>
-        <div id="1" style="height: auto">
-			<h3>Bank & Forsikring</h3>
-            <div>
-				<a href="https://www.skandiabanken.no" target="_blank"><img style="width:300px; height:150px" src="img/skandia.png" /></a>
-				<a href="https://www.sparebank1.no/oslo-akershus/" target="_blank"><img style="width:300px; height:150px" src="img/sparebank1.png" /></a>
-            </div>
+		<?php
+			//include 'dbconnector.php';
+			generateAccordions();
+		?>
+        <div id="1">
+			<div class="accordion_links">
+				<h3>Bank</h3>
+				<div>
+					<a href="https://www.skandiabanken.no" target="_blank"><img style="width:300px; height:150px" src="img/skandia.png" /></a>
+					<a href="https://www.sparebank1.no/oslo-akershus/" target="_blank"><img style="width:300px; height:150px" src="img/sparebank1.png" /></a>
+				</div>
+				<h3>Forsikring</h3>
+				<div>
+					<a href="https://www.gjensidige.no" target="_blank"><img style="width:300px; height:150px" src="http://logodesigneksperten.no/wp-content/uploads/2012/10/Gjensidige_logo1.jpg" /></a>
+				</div>
+			</div>
         </div>
         <div id="2">
-            <div id="accordion_links">
+            <div class="accordion_links">
                 <h3>Interne Applikasjoner</h3>
                 <div>				
                     <a href="https://asp.adrega.no/AdregaPI" target="_blank"><img style="width:300px; height:150px" src="img/timeforing.png" /></a>
@@ -91,8 +90,8 @@
 		<div id="4" style="height: auto">
 			<h3>Skytjenester</h3>
             <div>
-				<a href="https://www.skandiabanken.no" target="_blank"><img style="width:300px; height:150px" src="img/skandia.png" /></a>
-				<a href="https://www.sparebank1.no/oslo-akershus/" target="_blank"><img style="width:300px; height:150px" src="img/sparebank1.png" /></a>
+				<a href="https://www.playcanvas.com" target="_blank"><img style="width:300px; height:150px" src="https://d1qb2nb5cznatu.cloudfront.net/startups/i/120160-541e04926e9a5da9c136ab3e7caa5d44-medium_jpg.jpg?buster=1392289755" /></a>
+				<a href="https://drive.jolicloud.com" target="_blank"><img style="width:300px; height:150px" src="http://www.everonit.com/techtips/wp-content/uploads/2012/03/jolicloud_logo.jpg" /></a>
             </div>
 		</div>
 		<div id="5" style="height: auto">
