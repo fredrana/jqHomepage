@@ -69,39 +69,6 @@
             <div id="accordion_links">
                 <h3>Interne Applikasjoner</h3>
                 <div>
-					<?php
-						$servername = "10.246.17.50:3306";
-						$dbname = "skagestad_priv_";
-						$username = "skagestad_priv_";
-						$password = "rk6xTU9G";
-						
-						$msservername = "localhost";
-						$msusername = "hpuser";
-						$mspassword = "Hpuser4u";
-						$mssql_tablo="ad_forum"; 
-
-						// Create connection
-						$conn = new mysqli($servername, $username, $password, $dbname);
-						//$conn = new mssql_connect($msservername, $msusername, $mspassword);
-						//$conn = mssql_connect($msservername,$mssql_tablo, $msusername, $mspassword);
-						
-						// Check connection
-						if ($conn->connect_error) {
-							die("Connection failed: " . $conn->connect_error);
-						} 
-						else{				
-							$sql = "SELECT * FROM TABS";
-							$result = $conn->query($sql);
-							
-							if ($result->num_rows > 0) {
-								while($row = $result->fetch_assoc()) {
-									echo "The name is: ". $row["TAB_NAME"];
-								}
-							} else {
-								echo "0 results";
-							}
-						}
-					?>
                     <a href="https://asp.adrega.no/AdregaPI" target="_blank"><img style="width:300px; height:150px" src="img/timeforing.png" /></a>
                     <a href="http://adrega-builder/ccnet" target="_blank"><img style="width:300px; height:150px" src="img/cruice.png" /></a>
                     <a href="http://10.0.2.215:8080/tfs/web/" target="_blank"><img style="width:300px; height:150px" src="img/tfs.jpg" /></a>
