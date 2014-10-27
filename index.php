@@ -40,23 +40,10 @@
 				generateTabs();
 			?>
 		</ul>
+		
 		<?php
-			//include 'dbconnector.php';
 			generateAccordions();
 		?>
-        <div id="1">
-			<div class="accordion_links">
-				<h3>Bank</h3>
-				<div>
-					<a href="https://www.skandiabanken.no" target="_blank"><img style="width:300px; height:150px" src="img/skandia.png" /></a>
-					<a href="https://www.sparebank1.no/oslo-akershus/" target="_blank"><img style="width:300px; height:150px" src="img/sparebank1.png" /></a>
-				</div>
-				<h3>Forsikring</h3>
-				<div>
-					<a href="https://www.gjensidige.no" target="_blank"><img style="width:300px; height:150px" src="http://logodesigneksperten.no/wp-content/uploads/2012/10/Gjensidige_logo1.jpg" /></a>
-				</div>
-			</div>
-        </div>
         <div id="2">
             <div class="accordion_links">
                 <h3>Interne Applikasjoner</h3>

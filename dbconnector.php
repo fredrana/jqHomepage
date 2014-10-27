@@ -36,6 +36,35 @@
 	}
 	
 	function generateAccordions(){
-		echo "<p>Dette er en test</p>";
+		$select = "SELECT distinct TAB_ID FROM GROUPS";
+		$tabs = executeSql($select);
+		
+		if ($tabs->num_rows > 0) {
+			while($tabrow = $tabs->fetch_assoc()) {
+				echo "<div id=\"". $tabrow["TAB_ID"]. "\">";
+				echo "<div class=\"accordion_links\">";
+				
+				$select = "select * from GROUPS where TAB_ID = ". $tabrow["TAB_ID"];
+				$groups = executeSql($select);
+				//todo: Must add if to handle case where no groups.
+				while($grouprow = $groups->fetch_assoc()){
+					echo "<h3>". $grouprow["GROUP_NAME"]. "</h3>";
+					echo "<div>";
+					
+					$select = "select * from HOTLINKS where GROUP_ID = ". $grouprow["GROUP_ID"];
+					$links = executeSql($select);
+					//todo: Must add if to handle case where no links.
+					while($linksrow = $links->fetch_assoc()){
+						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px\" src=\"". $linksrow[ICON_PATH]. "\" /></a>";
+					}
+				
+					echo "</div>";
+				}
+				
+				echo "</div>";
+				echo "</div>";
+			}
+		}
 	}
+	
 ?>
