@@ -36,7 +36,7 @@
 	}
 	
 	function generateAccordions(){
-		$select = "SELECT distinct TAB_ID FROM GROUPS";
+		$select = "SELECT TAB_ID FROM TABS";
 		$tabs = executeSql($select);
 		
 		if ($tabs->num_rows > 0) {

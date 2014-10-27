@@ -44,7 +44,7 @@
 		<?php
 			generateAccordions();
 		?>
-        <div id="2">
+        <!--<div id="2">
             <div class="accordion_links">
                 <h3>Interne Applikasjoner</h3>
                 <div>				
@@ -87,7 +87,7 @@
 				<a href="https://www.vg.no" target="_blank"><img style="width:300px; height:150px" src="http://dating-adventure.com/wp-content/uploads/2010/10/VG-Logo.jpg" /></a>
 				<a href="https://www.dagbladet.no/" target="_blank"><img style="width:300px; height:150px" src="https://betaling.dagbladet.no/gfx/product_icons/11333.png" /></a>
             </div>
-		</div>
+		</div>-->
     </div>
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
