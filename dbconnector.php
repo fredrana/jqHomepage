@@ -57,6 +57,7 @@
 					while($linksrow = $links->fetch_assoc()){
 						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px\" src=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
+					echo "<button onclick=\"btnClick()\">Click me</button>";
 				
 					echo "</div>";
 				}
