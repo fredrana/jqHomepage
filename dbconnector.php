@@ -32,9 +32,9 @@
 			while($row = $result->fetch_assoc()) {
 				echo "<li id=\"tab". $row["TAB_ORDER"]. "\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
 			}
-			//todo: add (if admin mode)
-			echo "<li id=\"newTab\"><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-plus\"></span></a></li>";
-			
+
+			if ($_SESSION['isAdminMode'])
+				echo "<li id=\"newTab\"><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-plus\"></span></a></li>";
 		}
 	}
 	
@@ -60,8 +60,14 @@
 					while($linksrow = $links->fetch_assoc()){
 						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px\" src=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
-					echo "<button onclick=\"btnClick()\">Click me</button>";
+					if ($_SESSION['isAdminMode'])
+						echo "<button onclick=\"btnClick()\">Click me</button>";
 				
+					echo "</div>";
+				}
+				if ($_SESSION['isAdminMode']){
+					echo "<h3>+</h3>";
+					echo "<div>";
 					echo "</div>";
 				}
 				

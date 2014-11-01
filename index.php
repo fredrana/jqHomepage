@@ -1,5 +1,11 @@
-<!DOCTYPE html>
+<?php
+session_start();
+$_SESSION['isAdminMode'] = true;
 
+include 'dbconnector.php';
+?>
+
+<!DOCTYPE html>
 <html>
 <head runat="server">
     <title></title>
@@ -25,13 +31,15 @@
 
     <div id="tabs">
  	    <ul id="tabsList">
-			<?php
-				include 'dbconnector.php';
+			<?php				
 				generateTabs();
 			?>
 		</ul>
-		<button id="testbutton" onclick="btnClick()">Click me</button>
+		
 		<?php
+			if ($_SESSION['isAdminMode'])
+				echo "<button id=\"testbutton\" onclick=\"btnClick()\">Click me</button>";
+		
 			generateAccordions();
 		?>
 
