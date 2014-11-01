@@ -15,22 +15,7 @@
     });
 	
 	function btnClick() {
-		// var tabs = $( "#tabs" ).tabs();
-		// var ul = tabs.find( "ul" );
-		// $( "<li><a href='#1'>New Tab</a></li>" ).appendTo( ul );
-		// tabs.tabs( "refresh" );
 		
-		$.post("ajaxcalls.php",
-				{
-				id:"2"
-				},
-				function(data,status){
-					var tabs = $( "#tabs" ).tabs();
-					var ul = tabs.find( "ul" );
-					$( data ).appendTo( ul );
-					tabs.tabs( "refresh" );
-				}	
-		);
 	}
 
     </script>
@@ -39,8 +24,8 @@
 <body>
 
     <div id="tabs">
- 	    <ul id="div1">
-			<?php 
+ 	    <ul id="tabsList">
+			<?php
 				include 'dbconnector.php';
 				generateTabs();
 			?>
@@ -52,18 +37,35 @@
 
     </div>
     
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <!-- Top Google Ad -->
-    <ins class="adsbygoogle"
+    <!--<ins class="adsbygoogle"
         style="display:inline-block;width:728px;height:90px; border:5px;"
         data-ad-client="ca-pub-2790826587789805"
         data-ad-slot="1997015578"></ins>
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    </script>-->
     
     <script type="text/javascript">
-        $("#tabs").tabs({ hide: { effect: "fade", duration: 500 }, show: { effect: "fade", duration: 500 } });
+        $("#tabs").tabs({ hide: { effect: "fade", duration: 500 }, show: { effect: "fade", duration: 500 }, beforeActivate: function (event, ui) {
+            if(ui.newTab[0].id == 'newTab'){
+				$.post("ajaxcalls.php",
+					{
+					action:"newtab"
+					},
+					function(data,status){						
+						var tabs = $( "#tabs" ).tabs();
+						var index = tabs.tabs('option', 'active') +1;
+						//var ul = tabs.find( "ul" );
+						var tabInserted = "<li><a href=\"#" +index +"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>";
+						$(tabInserted).insertBefore(ui.newTab[0]);
+						tabs.tabs('option', 'active', tabs.tabs('option', 'active') -1);
+						tabs.tabs( "refresh" );		
+					}	
+				);
+			}
+        } });
     </script>
 </body>
 </html>
