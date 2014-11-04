@@ -1,15 +1,18 @@
-﻿#outerDiv
+﻿
+
+/*#outerDiv
 {
     height: 400px;
     margin-bottom: 10px;
 }
+*/
 
 #tabs .ui-tabs-nav .ui-icon
 {
     display: inline-block;
 }
 
-.TextBox, .TextArea
+/*.TextBox, .TextArea
 {
     width: 400px;
     background: #f7f7f7;
@@ -18,10 +21,10 @@
     color: #000000;
     padding: 5px;
     border-radius: 2px;
-}
+}*/
 
 
-.ui-tooltip-content
+/*.ui-tooltip-content
 {
     font-family: Tahoma,Lucida Grande,Lucida Sans,Arial,sans-serif;
     color: #000000;
@@ -31,29 +34,29 @@
 {
     background-color: #000000;
     font-weight: normal;
-}
+}*/
 
-label
+/*label
 {
     color: #000000;
     font-size: 15px;
     font-family: Tahoma;
-}
+}*/
 
-input[type=submit]
+/*input[type=submit]
 {
     margin-top: 5px;
-}
+}*/
 
-.horizontal
+/*.horizontal
 {
     display: inline-block;
-}
+}*/
 
-.vertical
+/*.vertical
 {
     display: block;
-}
+}*/
 
 /*Slideshow*/
 

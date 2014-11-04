@@ -7,8 +7,9 @@ include 'dbconnector.php';
 
 <!DOCTYPE html>
 <html>
-<head runat="server">
-    <title></title>
+<head>
+	<meta charset="UTF-8">
+    <title>My Startpage</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
     <link rel="stylesheet" type="text/css" href="styles/jquery-ui-1.10.3.custom.min.css" />
     <script src="scripts/jquery-1.9.1.js"></script>
@@ -44,6 +45,7 @@ include 'dbconnector.php';
 		?>
 
     </div>
+	<a href="http://validator.w3.org/check?uri=http%3A%2F%2Fskagestad.priv.no%2F;st=1" target="_blank">This page is validated as HTML5</a>
     
     <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <!-- Top Google Ad -->

@@ -1,19 +1,9 @@
-<?php
-	function executeSql($sql){
-		$servername = "10.246.17.50:3306";
-		$dbname = "skagestad_priv_";
-		$username = "skagestad_priv_";
-		$password = "pwd";
+<?php	
+	function executeSql($sql){	
+		include 'DbConnection.php';
 
-		$msservername = "localhost";
-		$msusername = "hpuser";
-		$mspassword = "Hpuser4u";
-		$mssql_tablo="ad_forum";
-		
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
-		//$conn = new mssql_connect($msservername, $msusername, $mspassword);
-		//$conn = mssql_connect($msservername,$mssql_tablo, $msusername, $mspassword);
 		
 		// Check connection
 		if ($conn->connect_error) {
@@ -23,8 +13,8 @@
 			$result = $conn->query($sql);
 			return $result;
 		}
-	}
-
+	}	
+	
 	function generateTabs(){
 		$select = "SELECT * FROM TABS";
 		$result = executeSql($select);
@@ -58,10 +48,19 @@
 					$links = executeSql($select);
 					//todo: Must add if to handle case where no links.
 					while($linksrow = $links->fetch_assoc()){
-						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px\" src=\"". $linksrow[ICON_PATH]. "\" /></a>";
+						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
 					if ($_SESSION['isAdminMode'])
-						echo "<button onclick=\"btnClick()\">Click me</button>";
+						echo 
+							"<form style=\"width:300px; height:150px; display: inline-block; float: left\">
+								<fieldset>
+									<legend>New Link:</legend>
+									<span>Name: <input type=\"text\"></span><br>
+									<span>URL: <input type=\"text\"></span><br>
+									<span>Image: <input type=\"text\"></span>
+							  </fieldset>
+							  <button onclick=\"btnClick()\">New Tab</button>
+							</form>";
 				
 					echo "</div>";
 				}
