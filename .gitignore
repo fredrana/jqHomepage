@@ -10,6 +10,7 @@ $RECYCLE.BIN/
 
 #My Own Files
 index - Kopi.php
+DbConnection.php
 
 # Windows Installer files
 *.cab
