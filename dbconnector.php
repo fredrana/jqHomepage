@@ -1,6 +1,6 @@
 <?php	
 	function executeSql($sql){	
-		include 'DbConnection.php';
+		include 'dbconnection.php';
 
 		// Create connection
 		$conn = new mysqli($servername, $username, $password, $dbname);
@@ -42,7 +42,7 @@
 				//todo: Must add if to handle case where no groups.
 				while($grouprow = $groups->fetch_assoc()){
 					echo "<h3>". $grouprow["GROUP_NAME"]. "</h3>";
-					echo "<div>";
+					echo "<div id=\"group". $grouprow["GROUP_ID"].   "\">";
 					
 					$select = "select * from HOTLINKS where GROUP_ID = ". $grouprow["GROUP_ID"];
 					$links = executeSql($select);
@@ -59,7 +59,7 @@
 									<span>URL: <input type=\"text\"></span><br>
 									<span>Image: <input type=\"text\"></span>
 							  </fieldset>
-							  <button onclick=\"btnClick()\">New Tab</button>
+							  <button id=\"group". $grouprow["GROUP_ID"]. "button\">New Tab</button>
 							</form>";
 				
 					echo "</div>";

@@ -17,14 +17,21 @@ include 'dbconnector.php';
 
     <script type="text/javascript">
     
-    $(function () {
+	$(function(){ //ButtonClick
+		$('button').on('click',function( event ){
+			event.stopPropagation();
+			event.preventDefault();
+			var senderId = event.target.id;
+			var parentId = senderId.replace('button','');
+			var header = document.getElementById(parentId);
+			header.innerHTML = "<a href=\"http://www.start.no\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"\" alt=\"\" /></a>" +header.innerHTML;
+		});
+	});
+	
+    $(function () { 
         $(".accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
     });
 	
-	function btnClick() {
-		
-	}
-
     </script>
 
 </head>
@@ -39,7 +46,7 @@ include 'dbconnector.php';
 		
 		<?php
 			if ($_SESSION['isAdminMode'])
-				echo "<button id=\"testbutton\" onclick=\"btnClick()\">Click me</button>";
+				echo "<button id=\"testbutton\">Click me</button>";
 		
 			generateAccordions();
 		?>
