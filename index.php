@@ -24,7 +24,10 @@ include 'dbconnector.php';
 			var senderId = event.target.id;
 			var parentId = senderId.replace('button','');
 			var header = document.getElementById(parentId);
-			header.innerHTML = "<a href=\"http://www.start.no\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"\" alt=\"\" /></a>" +header.innerHTML;
+			var url = document.getElementById(parentId +'url').value;
+			var image = document.getElementById(parentId +'image').value;
+			
+			header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +image +"\" alt=\"\" /></a>" +header.innerHTML;
 		});
 	});
 	

@@ -55,9 +55,8 @@
 							"<form style=\"width:300px; height:150px; display: inline-block; float: left\">
 								<fieldset>
 									<legend>New Link:</legend>
-									<span>Name: <input type=\"text\"></span><br>
-									<span>URL: <input type=\"text\"></span><br>
-									<span>Image: <input type=\"text\"></span>
+									<span>URL: <input id=\"group". $grouprow["GROUP_ID"]. "url\" type=\"text\"></span><br>
+									<span>Image: <input id=\"group". $grouprow["GROUP_ID"]. "image\" type=\"text\"></span>
 							  </fieldset>
 							  <button id=\"group". $grouprow["GROUP_ID"]. "button\">New Tab</button>
 							</form>";
