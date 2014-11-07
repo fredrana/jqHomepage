@@ -25,9 +25,20 @@ include 'dbconnector.php';
 			var parentId = senderId.replace('button','');
 			var header = document.getElementById(parentId);
 			var url = document.getElementById(parentId +'url').value;
-			var image = document.getElementById(parentId +'image').value;
+			var img = document.getElementById(parentId +'image').value;
 			
-			header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +image +"\" alt=\"\" /></a>" +header.innerHTML;
+			$.post("ajaxcalls.php",
+				{
+					action:"saveHotlink",
+					groupid:parentId.replace('group',''),
+					link:url,
+					image:img
+				},
+				function(data,status){						
+					header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
+					//alert('data: ' +data +" status: " +status);
+				}	
+			);
 		});
 	});
 	
