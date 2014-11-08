@@ -14,6 +14,7 @@ include 'dbconnector.php';
     <link rel="stylesheet" type="text/css" href="styles/jquery-ui-1.10.3.custom.min.css" />
     <script src="scripts/jquery-1.9.1.js"></script>
     <script src="scripts/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="scripts/jquery.ui-contextmenu.min.js"></script>
 
     <script type="text/javascript">
     
@@ -68,6 +69,8 @@ include 'dbconnector.php';
     </div>
 	<a href="http://validator.w3.org/check?uri=http%3A%2F%2Fskagestad.priv.no%2F;st=1" target="_blank">This page is validated as HTML5</a>
     
+	<a href="http://www.beyondsecurity.com/vulnerability-scanner-verification/skagestad.priv.no"><img src="https://secure.beyondsecurity.com/verification-images/skagestad.priv.no/vulnerability-scanner-2.gif" alt="Website Security Test" border="0" /></a>
+	
     <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <!-- Top Google Ad -->
     <!--<ins class="adsbygoogle"
@@ -97,6 +100,21 @@ include 'dbconnector.php';
 				);
 			}
         } });
+		
+		$(document).contextmenu({
+			delegate: ".hasmenu",
+			menu: [
+				{title: "Delete", cmd: "delete", uiIcon: "ui-icon-circle-close"},
+				{title: "Edit", cmd: "edit", uiIcon: "ui-icon-comment"}
+				//{title: "----"},
+				//{title: "More", children: [
+				//	{title: "Sub 1", cmd: "sub1"},
+				//	{title: "Sub 2", cmd: "sub1"}
+			],
+			select: function(event, ui) {
+				alert("select " + ui.cmd + " on " + ui.target.text());
+			}
+		});
     </script>
 </body>
 </html>

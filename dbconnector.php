@@ -48,7 +48,7 @@
 					$links = executeSql($select);
 					//todo: Must add if to handle case where no links.
 					while($linksrow = $links->fetch_assoc()){
-						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
+						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img class=\"hasmenu\" style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
 					if ($_SESSION['isAdminMode'])
 						echo 
