@@ -30,14 +30,14 @@ include 'dbconnector.php';
 			
 			$.post("ajaxcalls.php",
 				{
-					action:"saveHotlink",
+					action:"newHotlink",
 					groupid:parentId.replace('group',''),
 					link:url,
 					image:img
 				},
 				function(data,status){						
 					header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
-					//alert('data: ' +data +" status: " +status);
+					alert('data: ' +data +" status: " +status);
 				}	
 			);
 		});
@@ -101,6 +101,8 @@ include 'dbconnector.php';
 			}
         } });
 		
+		var groupid = '';
+		var linkid = '';
 		$(document).contextmenu({
 			delegate: ".hasmenu",
 			menu: [
@@ -111,8 +113,34 @@ include 'dbconnector.php';
 				//	{title: "Sub 1", cmd: "sub1"},
 				//	{title: "Sub 2", cmd: "sub1"}
 			],
+			beforeOpen: function(event, ui) {
+				var id = event.currentTarget.id;
+				id = id.replace('group','');
+				groupid = id.split("link")[0];
+				linkid = id.replace(groupid+'link','');
+			},
 			select: function(event, ui) {
-				alert("select " + ui.cmd + " on " + ui.target.text());
+				switch(ui.cmd) {
+					case 'delete':
+						$groupid = 
+						$.post("ajaxcalls.php",
+							{
+								action:"deleteHotlink",
+								groupid:groupid,
+								linkid:linkid
+							},
+							function(data,status){						
+								//header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" //+header.innerHTML;
+								alert('Delete: ' +data +" status: " +status);
+							}	
+						);
+						break;
+					case 'edit':
+						alert('This feature is not implemented yet.');
+						break;
+					default:
+						alert('Warning: Unexpected command in context menu.');
+				}
 			}
 		});
     </script>

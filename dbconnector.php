@@ -13,7 +13,32 @@
 			$result = $conn->query($sql);
 			return $result;
 		}
-	}	
+	}
+	
+	function newHotlink($groupid, $hotlink, $image){
+		include 'dbconnection.php';
+		//$conn = new mysqli($servername, $username, $password, $dbname);
+		
+		$dsn = 'mysql:dbname='. $dbname. ';host='. $servername;
+
+		// You must first connect to the database by instantiating a PDO object
+		try {
+			$dbh = new PDO($dsn, $username, $password);
+		} catch (PDOException $e) {
+			echo 'Connection failed: ' . $e->getMessage();
+		}
+
+		// Then you can prepare a statement and execute it.    
+		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?)");
+		// One bindParam() call per parameter
+
+		$stmt->bindParam(1, $groupid, PDO::PARAM_STR); 
+		$stmt->bindParam(2, $hotlink, PDO::PARAM_STR);
+		$stmt->bindParam(3, $image, PDO::PARAM_STR); 		
+
+		// call the stored procedure
+		$stmt->execute();
+	}
 	
 	function generateTabs(){
 		$select = "SELECT * FROM TABS";
@@ -48,7 +73,7 @@
 					$links = executeSql($select);
 					//todo: Must add if to handle case where no links.
 					while($linksrow = $links->fetch_assoc()){
-						echo "<a href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img class=\"hasmenu\" style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
+						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
 					if ($_SESSION['isAdminMode'])
 						echo 
