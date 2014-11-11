@@ -101,6 +101,7 @@ include 'dbconnector.php';
 			}
         } });
 		
+		var itemId = '';
 		var groupid = '';
 		var linkid = '';
 		$(document).contextmenu({
@@ -114,8 +115,8 @@ include 'dbconnector.php';
 				//	{title: "Sub 2", cmd: "sub1"}
 			],
 			beforeOpen: function(event, ui) {
-				var id = event.currentTarget.id;
-				id = id.replace('group','');
+				itemId = event.currentTarget.id;
+				var id = itemId.replace('group','');
 				groupid = id.split("link")[0];
 				linkid = id.replace(groupid+'link','');
 			},
@@ -130,7 +131,7 @@ include 'dbconnector.php';
 								linkid:linkid
 							},
 							function(data,status){						
-								//header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" //+header.innerHTML;
+								$( "#"+ itemId ).remove();
 								alert('Delete: ' +data +" status: " +status);
 							}	
 						);
