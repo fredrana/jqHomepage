@@ -18,6 +18,8 @@ include 'dbconnector.php';
 
     <script type="text/javascript">
     
+	
+	
 	$(function(){ //ButtonClick
 		$('button').on('click',function( event ){
 			event.stopPropagation();
@@ -57,6 +59,43 @@ include 'dbconnector.php';
 
 </head>
 <body>
+	<div id="tabEditDialog" title="Rename Tab">
+		<form>
+			<fieldset>
+				<label for="tabEditNameBox">Name</label>
+				<input type="text" name="name" id="tabEditNameBox" class="text ui-widget-content ui-corner-all">
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+	
+	<div id="linkEditDialog" title="Edit Hotlink">
+		<form>
+			<fieldset>
+				<label for="linkEditNameBox">Tooltip</label>
+				<input type="text" name="name" id="linkEditNameBox" class="text ui-widget-content ui-corner-all">
+				<label for="linkEditUrlBox">URL</label>
+				<input type="text" name="link" id="linkEditUrlBox" class="text ui-widget-content ui-corner-all">
+				<label for="linkEditImageBox">Image</label>
+				<input type="text" name="image" id="linkEditImageBox" class="text ui-widget-content ui-corner-all">
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+	
+	<div id="groupEditDialog" title="Rename Group">
+		<form>
+			<fieldset>
+				<label for="groupEditNameBox">Name</label>
+				<input type="text" name="name" id="groupEditNameBox" class="text ui-widget-content ui-corner-all">
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+
     <div id="tabs">
  	    <ul id="tabsList">
 			<?php				
@@ -142,10 +181,76 @@ include 'dbconnector.php';
 						);
 						break;
 					case 'edit':
-						alert('This feature is not implemented yet.');
+						if (itemId.indexOf("tab") > -1){
+							var itemClicked = document.getElementById(itemId);
+							var nameBox = document.getElementById("tabEditNameBox");
+							nameBox.value = itemClicked.innerText;
+							$( "#tabEditDialog" ).dialog('open');	
+						}
+						else if (itemId.indexOf("link") > -1){
+							var itemClicked = document.getElementById(itemId);
+							var nameBox = document.getElementById("linkEditNameBox");
+							var urlBox = document.getElementById("linkEditUrlBox");
+							var imageBox = document.getElementById("linkEditImageBox");
+							nameBox.value = itemClicked.title;
+							urlBox.value = itemClicked.href;
+							imageBox.value = itemClicked.childNodes[0].src
+							$( "#linkEditDialog" ).dialog('open');
+						}
+						else if (itemId.indexOf("group") > -1){
+							var itemClicked = document.getElementById(itemId);
+							var nameBox = document.getElementById("groupEditNameBox");
+							nameBox.value = itemClicked.innerText;
+							$( "#groupEditDialog" ).dialog('open');	
+						}
+						else{ //should never happen.
+							alert('Warning: Edit function not implemented for this element.');
+						}
 						break;
 					default:
 						alert('Warning: Unexpected command in context menu.');
+				}
+			}
+		});
+		
+		$("#tabEditDialog").dialog({
+			dialogClass: "no-close",
+			autoOpen: false, 
+			modal: true,
+			buttons: {
+				"Save Changes": function() {
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
+		$("#groupEditDialog").dialog({
+			dialogClass: "no-close",
+			autoOpen: false, 
+			modal: true,
+			buttons: {
+				"Save Changes": function() {
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
+		$("#linkEditDialog").dialog({
+			dialogClass: "no-close",
+			autoOpen: false, 
+			modal: true,
+			buttons: {
+				"Save Changes": function() {
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
 				}
 			}
 		});

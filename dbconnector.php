@@ -46,7 +46,7 @@
 		$result = executeSql($select);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<li id=\"tab". $row["TAB_ORDER"]. "\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
+				echo "<li id=\"tab". $row["TAB_ORDER"]. "\" class=\"hasmenu\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
 			}
 
 			if ($_SESSION['isAdminMode'])
@@ -67,8 +67,8 @@
 				$groups = executeSql($select);
 				//todo: Must add if to handle case where no groups.
 				while($grouprow = $groups->fetch_assoc()){
-					echo "<h3>". $grouprow["GROUP_NAME"]. "</h3>";
-					echo "<div id=\"group". $grouprow["GROUP_ID"].   "\">";
+					echo "<h3 id=\"group". $grouprow["GROUP_ID"]. "header\" class=\"hasmenu\">". $grouprow["GROUP_NAME"]. "</h3>";
+					echo "<div id=\"group". $grouprow["GROUP_ID"]. "\">";
 					
 					$select = "select * from HOTLINKS where GROUP_ID = ". $grouprow["GROUP_ID"];
 					$links = executeSql($select);

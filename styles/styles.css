@@ -7,6 +7,11 @@
 }
 */
 
+/*Make sure the dialog x close button is not visible*/
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
 #tabs .ui-tabs-nav .ui-icon
 {
     display: inline-block;
