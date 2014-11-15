@@ -27,13 +27,15 @@ include 'dbconnector.php';
 			var header = document.getElementById(parentId);
 			var url = document.getElementById(parentId +'url').value;
 			var img = document.getElementById(parentId +'image').value;
+			var tooltip = document.getElementById(parentId +'tooltip').value;
 			
 			$.post("ajaxcalls.php",
 				{
 					action:"newHotlink",
 					groupid:parentId.replace('group',''),
 					link:url,
-					image:img
+					image:img,
+					tooltip: tooltip
 				},
 				function(data,status){						
 					header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
@@ -47,11 +49,14 @@ include 'dbconnector.php';
         $(".accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
     });
 	
+	$(function() {
+		$( document ).tooltip({track: true});
+	});
+	
     </script>
 
 </head>
 <body>
-
     <div id="tabs">
  	    <ul id="tabsList">
 			<?php				

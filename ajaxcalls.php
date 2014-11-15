@@ -8,7 +8,8 @@
 				$groupid = $_POST['groupid'];
 				$link = $_POST['link'];
 				$image = $_POST['image'];
-				newHotlink($groupid,$link,$image);
+				$tooltip = $_POST['tooltip'];
+				newHotlink($groupid,$link,$image,$tooltip);
 				break;
 			case 'deleteHotlink' :
 				$groupid = $_POST['groupid'];

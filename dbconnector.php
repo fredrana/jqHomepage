@@ -15,7 +15,7 @@
 		}
 	}
 	
-	function newHotlink($groupid, $hotlink, $image){
+	function newHotlink($groupid, $hotlink, $image, $title){
 		include 'dbconnection.php';
 		//$conn = new mysqli($servername, $username, $password, $dbname);
 		
@@ -29,12 +29,13 @@
 		}
 
 		// Then you can prepare a statement and execute it.    
-		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?)");
+		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?, ?)");
 		// One bindParam() call per parameter
 
 		$stmt->bindParam(1, $groupid, PDO::PARAM_STR); 
 		$stmt->bindParam(2, $hotlink, PDO::PARAM_STR);
-		$stmt->bindParam(3, $image, PDO::PARAM_STR); 		
+		$stmt->bindParam(3, $image, PDO::PARAM_STR);
+		$stmt->bindParam(4, $title, PDO::PARAM_STR);
 
 		// call the stored procedure
 		$stmt->execute();
@@ -73,13 +74,14 @@
 					$links = executeSql($select);
 					//todo: Must add if to handle case where no links.
 					while($linksrow = $links->fetch_assoc()){
-						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
+						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" title=\"". $linksrow[LINK_TITLE]. "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
 					if ($_SESSION['isAdminMode'])
 						echo 
 							"<form style=\"width:300px; height:150px; display: inline-block; float: left\">
 								<fieldset>
 									<legend>New Link:</legend>
+									<span>Tooltip: <input id=\"group". $grouprow["GROUP_ID"]. "tooltip\" type=\"text\"></span><br>
 									<span>URL: <input id=\"group". $grouprow["GROUP_ID"]. "url\" type=\"text\"></span><br>
 									<span>Image: <input id=\"group". $grouprow["GROUP_ID"]. "image\" type=\"text\"></span>
 							  </fieldset>
