@@ -114,11 +114,6 @@
 				
 					echo "</div>";
 				}
-				if ($_SESSION['isAdminMode']){
-					echo "<h3>+</h3>";
-					echo "<div>";
-					echo "</div>";
-				}
 				
 				echo "</div>";
 				echo "</div>";
