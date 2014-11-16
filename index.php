@@ -173,6 +173,7 @@ include 'dbconnector.php';
 				itemId = event.currentTarget.id;
 				var id = itemId.replace('group','');
 				groupid = id.split("link")[0];
+				groupid = groupid.replace('header', ''); //if group, this will kick in.
 				linkid = id.replace(groupid+'link','');
 			},
 			select: function(event, ui) {
@@ -211,7 +212,23 @@ include 'dbconnector.php';
 							);
 						}
 						else if (itemId.indexOf("group") > -1){
-							alert('Warning: Delete function not implemented for groups yet.');
+							var childCount = document.getElementById(itemId.replace('header','')).children.length;
+							if (childCount > 1){
+								alert("Warning: This element has children and cannot be deleted");
+								
+							}
+							else{
+								$.post("ajaxcalls.php",
+									{
+										action:"deleteGroup",
+										groupid:groupid
+									},
+									function(data,status){						
+										$( "#"+ itemId ).remove();
+										alert('Delete: ' +data +" status: " +status);
+									}	
+								);
+							}
 						}
 						else{
 							alert('Warning: Delete functionality not implemented for this element.');

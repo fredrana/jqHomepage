@@ -3,7 +3,9 @@
 	if(isset($_POST['action']) && !empty($_POST['action'])) {
 		$action = $_POST['action'];
 		switch($action) {
-			case 'newtab' : newtab();break;
+			case 'newtab' : 
+				newtab();
+				break;
 			case 'newHotlink' : 
 				$groupid = $_POST['groupid'];
 				$link = $_POST['link'];
@@ -21,14 +23,14 @@
 				$groupname = $_POST['groupname'];
 				newGroup($tabid,$groupname);
 				break;
+			case 'deleteGroup' :
+				$groupid = $_POST['groupid'];
+				deleteGroup($groupid);
+				break;
 		}
 	}
 
 	function newtab(){
 		echo "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>";
-	}
-	
-	function deleteHotlink($group, $link){
-		executeSql("delete from HOTLINKS where GROUP_ID = ".$group." and LINK_ID = " .$link);
 	}
 ?>

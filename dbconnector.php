@@ -15,6 +15,14 @@
 		}
 	}
 	
+	function deleteHotlink($group, $link){
+		executeSql("delete from HOTLINKS where GROUP_ID = ".$group." and LINK_ID = " .$link);
+	}
+	
+	function deleteGroup($group){
+		executeSql("delete from GROUPS where GROUP_ID = ".$group);
+	}
+	
 	function newGroup($tabid,$groupname){
 		include 'dbconnection.php';
 		
