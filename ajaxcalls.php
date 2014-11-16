@@ -27,10 +27,10 @@
 				$groupid = $_POST['groupid'];
 				deleteGroup($groupid);
 				break;
+			case 'newTab' :
+				$tabname = $_POST['tabname'];
+				newTab($tabname);
+				break;
 		}
-	}
-
-	function newtab(){
-		echo "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>";
 	}
 ?>

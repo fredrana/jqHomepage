@@ -24,7 +24,7 @@ include 'dbconnector.php';
 			event.preventDefault();
 			
 			if (itemId.indexOf("tab") > -1){
-				alert('Warning: New tab functionality not yet implemented.');
+				// Handled separately.
 			}
 			else if (itemId.indexOf("link") > -1 || itemId == "" /*remove idtemId == "" when admin mode is made unnecessary*/){
 				var senderId = event.target.id;
@@ -69,7 +69,7 @@ include 'dbconnector.php';
 
 </head>
 <body>
-	<div id="tabEditDialog" title="Rename Tab">
+	<div id="tabEditDialog" title="New\Rename Tab">
 		<form>
 			<fieldset>
 				<label for="tabEditNameBox">Name</label>
@@ -177,10 +177,12 @@ include 'dbconnector.php';
 				switch(ui.cmd) {
 					case 'new':
 						if (itemId.indexOf("tab") > -1){
-							alert('Warning: New function not implemented for tabs yet.');
+							var nameBox = document.getElementById("tabEditNameBox");
+							nameBox.value = "";
+							$( "#tabEditDialog" ).dialog('open');	
 						}
 						else if (itemId.indexOf("link") > -1){
-							alert('Warning: New function not implemented for groups yet.');
+							alert('Warning: New function not implemented for links yet.');
 						}
 						else if (itemId.indexOf("group") > -1){
 							var nameBox = document.getElementById("groupEditNameBox");
@@ -270,6 +272,20 @@ include 'dbconnector.php';
 			modal: true,
 			buttons: {
 				"Save Changes": function() {
+					var name = document.getElementById("tabEditNameBox").value;
+					var tabid = itemId.replace('Item','');
+					$.post("ajaxcalls.php",
+						{
+							action:"newTab",
+							tabname: name
+						},
+						function(data,status){
+							$("#" +itemId).parent().append( "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>" );
+							
+							//Below can be used to insert at a specific location before the clicked tab element.
+							//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
+						}	
+					);
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {

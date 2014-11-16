@@ -24,15 +24,7 @@
 	}
 	
 	function newGroup($tabid,$groupname){
-		include 'dbconnection.php';
-		
-		$dsn = 'mysql:dbname='. $dbname. ';host='. $servername;
-		
-		try {
-			$dbh = new PDO($dsn, $username, $password);
-		} catch (PDOException $e) {
-			echo 'Connection failed: ' . $e->getMessage();
-		}
+		$dbh = getDbConnection();
 		
 		$stmt = $dbh->prepare("CALL sp_newGroup(?, ?)");
 
@@ -42,18 +34,31 @@
 		$stmt->execute();	
 	}
 	
-	function newHotlink($groupid, $hotlink, $image, $title){
+	function getDbConnection(){
 		include 'dbconnection.php';
-		//$conn = new mysqli($servername, $username, $password, $dbname);
 		
 		$dsn = 'mysql:dbname='. $dbname. ';host='. $servername;
-
-		// You must first connect to the database by instantiating a PDO object
+		
 		try {
 			$dbh = new PDO($dsn, $username, $password);
 		} catch (PDOException $e) {
 			echo 'Connection failed: ' . $e->getMessage();
 		}
+		return $dbh;
+	}
+	
+	function newTab($tabname){
+		$dbh = getDbConnection();
+	
+		$stmt = $dbh->prepare("CALL sp_newTab(?)");
+
+		$stmt->bindParam(1, $tabname, PDO::PARAM_STR); 
+
+		$stmt->execute();
+	}
+	
+	function newHotlink($groupid, $hotlink, $image, $title){
+		$dbh = getDbConnection();
  
 		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?, ?)");
 
@@ -66,15 +71,12 @@
 	}
 	
 	function generateTabs(){
-		$select = "SELECT * FROM TABS";
+		$select = "select * from TABS order by TAB_ORDER";
 		$result = executeSql($select);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
 				echo "<li id=\"tab". $row["TAB_ORDER"]. "\" class=\"hasmenu\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
 			}
-
-			if ($_SESSION['isAdminMode'])
-				echo "<li id=\"newTab\"><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-plus\"></span></a></li>";
 		}
 	}
 	
