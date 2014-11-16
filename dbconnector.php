@@ -15,6 +15,25 @@
 		}
 	}
 	
+	function newGroup($tabid,$groupname){
+		include 'dbconnection.php';
+		
+		$dsn = 'mysql:dbname='. $dbname. ';host='. $servername;
+		
+		try {
+			$dbh = new PDO($dsn, $username, $password);
+		} catch (PDOException $e) {
+			echo 'Connection failed: ' . $e->getMessage();
+		}
+		
+		$stmt = $dbh->prepare("CALL sp_newGroup(?, ?)");
+
+		$stmt->bindParam(1, $tabid, PDO::PARAM_STR); 
+		$stmt->bindParam(2, $groupname, PDO::PARAM_STR);
+
+		$stmt->execute();	
+	}
+	
 	function newHotlink($groupid, $hotlink, $image, $title){
 		include 'dbconnection.php';
 		//$conn = new mysqli($servername, $username, $password, $dbname);
@@ -27,17 +46,14 @@
 		} catch (PDOException $e) {
 			echo 'Connection failed: ' . $e->getMessage();
 		}
-
-		// Then you can prepare a statement and execute it.    
+ 
 		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?, ?)");
-		// One bindParam() call per parameter
 
 		$stmt->bindParam(1, $groupid, PDO::PARAM_STR); 
 		$stmt->bindParam(2, $hotlink, PDO::PARAM_STR);
 		$stmt->bindParam(3, $image, PDO::PARAM_STR);
 		$stmt->bindParam(4, $title, PDO::PARAM_STR);
 
-		// call the stored procedure
 		$stmt->execute();
 	}
 	

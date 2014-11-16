@@ -18,32 +18,42 @@ include 'dbconnector.php';
 
     <script type="text/javascript">
     
-	
-	
 	$(function(){ //ButtonClick
 		$('button').on('click',function( event ){
 			event.stopPropagation();
 			event.preventDefault();
-			var senderId = event.target.id;
-			var parentId = senderId.replace('button','');
-			var header = document.getElementById(parentId);
-			var url = document.getElementById(parentId +'url').value;
-			var img = document.getElementById(parentId +'image').value;
-			var tooltip = document.getElementById(parentId +'tooltip').value;
 			
-			$.post("ajaxcalls.php",
-				{
-					action:"newHotlink",
-					groupid:parentId.replace('group',''),
-					link:url,
-					image:img,
-					tooltip: tooltip
-				},
-				function(data,status){						
-					header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
-					alert('data: ' +data +" status: " +status);
-				}	
-			);
+			if (itemId.indexOf("tab") > -1){
+				alert('Warning: New tab functionality not yet implemented.');
+			}
+			else if (itemId.indexOf("link") > -1 || itemId == "" /*remove idtemId == "" when admin mode is made unnecessary*/){
+				var senderId = event.target.id;
+				var parentId = senderId.replace('button','');
+				var header = document.getElementById(parentId);
+				var url = document.getElementById(parentId +'url').value;
+				var img = document.getElementById(parentId +'image').value;
+				var tooltip = document.getElementById(parentId +'tooltip').value;
+				
+				$.post("ajaxcalls.php",
+					{
+						action:"newHotlink",
+						groupid:parentId.replace('group',''),
+						link:url,
+						image:img,
+						tooltip: tooltip
+					},
+					function(data,status){						
+						header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
+						alert('data: ' +data +" status: " +status);
+					}	
+				);
+			}
+			else if (itemId.indexOf("group") > -1){
+				
+			}
+			else{
+				alert('Warning: New functionality not implemented for this element.');
+			}
 		});
 	});
 	
@@ -85,7 +95,7 @@ include 'dbconnector.php';
 		</form>
 	</div>
 	
-	<div id="groupEditDialog" title="Rename Group">
+	<div id="groupEditDialog" title="Create new\Rename Group">
 		<form>
 			<fieldset>
 				<label for="groupEditNameBox">Name</label>
@@ -151,6 +161,7 @@ include 'dbconnector.php';
 		$(document).contextmenu({
 			delegate: ".hasmenu",
 			menu: [
+				{title: "New", cmd: "new", uiIcon: "ui-icon-arrowthickstop-1-e"},
 				{title: "Delete", cmd: "delete", uiIcon: "ui-icon-circle-close"},
 				{title: "Edit", cmd: "edit", uiIcon: "ui-icon-comment"}
 				//{title: "----"},
@@ -166,19 +177,45 @@ include 'dbconnector.php';
 			},
 			select: function(event, ui) {
 				switch(ui.cmd) {
+					case 'new':
+						if (itemId.indexOf("tab") > -1){
+							alert('Warning: New function not implemented for tabs yet.');
+						}
+						else if (itemId.indexOf("link") > -1){
+							alert('Warning: New function not implemented for groups yet.');
+						}
+						else if (itemId.indexOf("group") > -1){
+							var nameBox = document.getElementById("groupEditNameBox");
+							nameBox.value = "";
+							$( "#groupEditDialog" ).dialog('open');	
+						}
+						else{
+							alert('Warning: New functionality not implemented for this element.');
+						}
+						break;
 					case 'delete':
-						$groupid = 
-						$.post("ajaxcalls.php",
-							{
-								action:"deleteHotlink",
-								groupid:groupid,
-								linkid:linkid
-							},
-							function(data,status){						
-								$( "#"+ itemId ).remove();
-								alert('Delete: ' +data +" status: " +status);
-							}	
-						);
+						if (itemId.indexOf("tab") > -1){
+							alert('Warning: Delete function not implemented for tabs yet.');
+						}
+						else if (itemId.indexOf("link") > -1){
+							$.post("ajaxcalls.php",
+								{
+									action:"deleteHotlink",
+									groupid:groupid,
+									linkid:linkid
+								},
+								function(data,status){						
+									$( "#"+ itemId ).remove();
+									alert('Delete: ' +data +" status: " +status);
+								}	
+							);
+						}
+						else if (itemId.indexOf("group") > -1){
+							alert('Warning: Delete function not implemented for groups yet.');
+						}
+						else{
+							alert('Warning: Delete functionality not implemented for this element.');
+						}
 						break;
 					case 'edit':
 						if (itemId.indexOf("tab") > -1){
@@ -208,7 +245,7 @@ include 'dbconnector.php';
 						}
 						break;
 					default:
-						alert('Warning: Unexpected command in context menu.');
+						alert('Warning: The command has not been implemented yet.');
 				}
 			}
 		});
@@ -233,6 +270,19 @@ include 'dbconnector.php';
 			modal: true,
 			buttons: {
 				"Save Changes": function() {
+					var name = document.getElementById("groupEditNameBox").value;
+					var tabid = document.getElementById(itemId).parentNode.parentNode.id;
+					$.post("ajaxcalls.php",
+						{
+							action:"newGroup",
+							tabid:tabid,
+							groupname: name
+						},
+						function(data,status){						
+							//header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
+							alert('data: ' +data +" status: " +status);
+						}	
+					);
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {

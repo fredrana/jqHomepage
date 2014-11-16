@@ -16,6 +16,11 @@
 				$linkid = $_POST['linkid'];
 				deleteHotlink($groupid,$linkid);
 				break;
+			case 'newGroup' :
+				$tabid = $_POST['tabid'];
+				$groupname = $_POST['groupname'];
+				newGroup($tabid,$groupname);
+				break;
 		}
 	}
 
