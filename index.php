@@ -114,9 +114,6 @@ include 'dbconnector.php';
 		</ul>
 		
 		<?php
-			if ($_SESSION['isAdminMode'])
-				echo "<button id=\"testbutton\">Click me</button>";
-		
 			generateAccordions();
 		?>
 
