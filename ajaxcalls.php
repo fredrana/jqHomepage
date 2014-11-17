@@ -31,6 +31,10 @@
 				$tabname = $_POST['tabname'];
 				newTab($tabname);
 				break;
+			case 'deleteTab' :
+				$tabid = $_POST['tabid'];
+				deleteTab($tabid);
+				break;
 		}
 	}
 ?>

@@ -158,7 +158,22 @@ include 'dbconnector.php';
 						break;
 					case 'delete':
 						if (itemId.indexOf("tab") > -1){
-							alert('Warning: Delete function not implemented for tabs yet.');
+							var tabid = itemId.replace('tab','');
+							var childCount = document.getElementById(tabid).childNodes[0].childNodes.length;
+							if (childCount > 0){
+								alert("Warning: This tab has sub-elements and cannot be deleted");
+							}
+							else{
+								$.post("ajaxcalls.php",
+									{
+										action:"deleteTab",
+										tabid:tabid
+									},
+									function(data,status){						
+										$( "#"+ itemId ).remove();
+									}	
+								);
+							}
 						}
 						else if (itemId.indexOf("link") > -1){
 							$.post("ajaxcalls.php",
@@ -169,7 +184,6 @@ include 'dbconnector.php';
 								},
 								function(data,status){						
 									$( "#"+ itemId ).remove();
-									alert('Delete: ' +data +" status: " +status);
 								}	
 							);
 						}
@@ -177,7 +191,6 @@ include 'dbconnector.php';
 							var childCount = document.getElementById(itemId.replace('header','')).children.length;
 							if (childCount > 0){
 								alert("Warning: This element has children and cannot be deleted");
-								
 							}
 							else{
 								$.post("ajaxcalls.php",
@@ -187,7 +200,6 @@ include 'dbconnector.php';
 									},
 									function(data,status){						
 										$( "#"+ itemId ).remove();
-										alert('Delete: ' +data +" status: " +status);
 									}	
 								);
 							}
@@ -272,8 +284,7 @@ include 'dbconnector.php';
 							groupname: name
 						},
 						function(data,status){						
-							//header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
-							alert('data: ' +data +" status: " +status);
+
 						}	
 					);
 					$( this ).dialog( "close" );
@@ -304,7 +315,6 @@ include 'dbconnector.php';
 					},
 					function(data,status){						
 						$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
-						alert('data: ' +data +" status: " +status);
 					}	
 				);
 					$( this ).dialog( "close" );

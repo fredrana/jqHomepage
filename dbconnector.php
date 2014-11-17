@@ -23,6 +23,16 @@
 		executeSql("delete from GROUPS where GROUP_ID = ".$group);
 	}
 	
+	function deleteTab($tabid){
+		$dbh = getDbConnection();
+		
+		$stmt = $dbh->prepare("CALL sp_deleteTab(?)");
+
+		$stmt->bindParam(1, $tabid, PDO::PARAM_STR); 
+
+		$stmt->execute();
+	}
+	
 	function newGroup($tabid,$groupname){
 		$dbh = getDbConnection();
 		
@@ -75,7 +85,7 @@
 		$result = executeSql($select);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<li id=\"tab". $row["TAB_ORDER"]. "\" class=\"hasmenu\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
+				echo "<li id=\"tab". $row["TAB_ID"]. "\" class=\"hasmenu\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
 			}
 		}
 	}
