@@ -102,17 +102,6 @@
 					while($linksrow = $links->fetch_assoc()){
 						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" title=\"". $linksrow[LINK_TITLE]. "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
-					if ($_SESSION['isAdminMode'])
-						echo 
-							"<form style=\"width:300px; height:150px; display: inline-block; float: left\">
-								<fieldset>
-									<legend>New Link:</legend>
-									<span>Tooltip: <input id=\"group". $grouprow["GROUP_ID"]. "tooltip\" type=\"text\"></span><br>
-									<span>URL: <input id=\"group". $grouprow["GROUP_ID"]. "url\" type=\"text\"></span><br>
-									<span>Image: <input id=\"group". $grouprow["GROUP_ID"]. "image\" type=\"text\"></span>
-							  </fieldset>
-							  <button id=\"group". $grouprow["GROUP_ID"]. "button\">New Tab</button>
-							</form>";
 				
 					echo "</div>";
 				}

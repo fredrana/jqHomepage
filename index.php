@@ -17,45 +17,6 @@ include 'dbconnector.php';
 	<script src="scripts/jquery.ui-contextmenu.min.js"></script>
 
     <script type="text/javascript">
-    
-	$(function(){ //ButtonClick
-		$('button').on('click',function( event ){
-			event.stopPropagation();
-			event.preventDefault();
-			
-			if (itemId.indexOf("tab") > -1){
-				// Handled separately.
-			}
-			else if (itemId.indexOf("link") > -1 || itemId == "" /*remove idtemId == "" when admin mode is made unnecessary*/){
-				var senderId = event.target.id;
-				var parentId = senderId.replace('button','');
-				var header = document.getElementById(parentId);
-				var url = document.getElementById(parentId +'url').value;
-				var img = document.getElementById(parentId +'image').value;
-				var tooltip = document.getElementById(parentId +'tooltip').value;
-				
-				$.post("ajaxcalls.php",
-					{
-						action:"newHotlink",
-						groupid:parentId.replace('group',''),
-						link:url,
-						image:img,
-						tooltip: tooltip
-					},
-					function(data,status){						
-						header.innerHTML = "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" +header.innerHTML;
-						alert('data: ' +data +" status: " +status);
-					}	
-				);
-			}
-			else if (itemId.indexOf("group") > -1){
-				
-			}
-			else{
-				alert('Warning: New functionality not implemented for this element.');
-			}
-		});
-	});
 	
     $(function () { 
         $(".accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
@@ -120,7 +81,7 @@ include 'dbconnector.php';
     </div>
 	<a href="http://validator.w3.org/check?uri=http%3A%2F%2Fskagestad.priv.no%2F;st=1" target="_blank">This page is validated as HTML5</a>
     
-	<a href="http://www.beyondsecurity.com/vulnerability-scanner-verification/skagestad.priv.no"><img src="https://secure.beyondsecurity.com/verification-images/skagestad.priv.no/vulnerability-scanner-2.gif" alt="Website Security Test" border="0" /></a>
+	<!--<a href="http://www.beyondsecurity.com/vulnerability-scanner-verification/skagestad.priv.no"><img src="https://secure.beyondsecurity.com/verification-images/skagestad.priv.no/vulnerability-scanner-2.gif" alt="Website Security Test" border="0" /></a>-->
 	
     <!--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <!-- Top Google Ad -->
@@ -182,7 +143,9 @@ include 'dbconnector.php';
 							$( "#tabEditDialog" ).dialog('open');	
 						}
 						else if (itemId.indexOf("link") > -1){
-							alert('Warning: New function not implemented for links yet.');
+							var nameBox = document.getElementById("linkEditNameBox");
+							nameBox.value = "";
+							$( "#linkEditDialog" ).dialog('open');
 						}
 						else if (itemId.indexOf("group") > -1){
 							var nameBox = document.getElementById("groupEditNameBox");
@@ -212,7 +175,7 @@ include 'dbconnector.php';
 						}
 						else if (itemId.indexOf("group") > -1){
 							var childCount = document.getElementById(itemId.replace('header','')).children.length;
-							if (childCount > 1){
+							if (childCount > 0){
 								alert("Warning: This element has children and cannot be deleted");
 								
 							}
@@ -327,6 +290,23 @@ include 'dbconnector.php';
 			modal: true,
 			buttons: {
 				"Save Changes": function() {
+					var name = document.getElementById("linkEditNameBox").value;
+					var url = document.getElementById("linkEditUrlBox").value;
+					var img = document.getElementById("linkEditImageBox").value;
+				
+					$.post("ajaxcalls.php",
+					{
+						action:"newHotlink",
+						groupid:groupid,
+						link:url,
+						image:img,
+						tooltip: name
+					},
+					function(data,status){						
+						$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
+						alert('data: ' +data +" status: " +status);
+					}	
+				);
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {
