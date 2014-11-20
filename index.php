@@ -56,6 +56,10 @@ include 'dbconnector.php';
 		</form>
 	</div>
 	
+	<div id="yesCancelDialog" title="Are you sure?">
+		<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The item will be permanently deleted and cannot be recovered. Are you sure?</p>
+	</div>
+	
 	<div id="groupEditDialog" title="Create new\Rename Group">
 		<form>
 			<fieldset>
@@ -164,28 +168,49 @@ include 'dbconnector.php';
 								alert("Warning: This tab has sub-elements and cannot be deleted");
 							}
 							else{
-								$.post("ajaxcalls.php",
-									{
-										action:"deleteTab",
-										tabid:tabid
-									},
-									function(data,status){						
-										$( "#"+ itemId ).remove();
-									}	
+								$('#yesCancelDialog').dialog("option", "buttons", { 
+								"Yes": function() { 
+									$.post("ajaxcalls.php",
+										{
+											action:"deleteTab",
+											tabid:tabid
+										},
+										function(data,status){						
+											$( "#"+ itemId ).remove();
+										}	
+									);
+									$(this).dialog("close");  
+								},  
+								"CANCEL": 
+									function() { 
+										$(this).dialog("close"); }
+									} 
 								);
+								$( "#yesCancelDialog" ).dialog('open');
 							}
 						}
 						else if (itemId.indexOf("link") > -1){
-							$.post("ajaxcalls.php",
-								{
-									action:"deleteHotlink",
-									groupid:groupid,
-									linkid:linkid
-								},
-								function(data,status){						
-									$( "#"+ itemId ).remove();
-								}	
-							);
+							$('#yesCancelDialog').dialog("option", "buttons", { 
+								"Yes": function() { 
+									$.post("ajaxcalls.php",
+										{
+											action:"deleteHotlink",
+											groupid:groupid,
+											linkid:linkid
+										},
+										function(data,status){						
+											$( "#"+ itemId ).remove();
+										}	
+									); 
+									$(this).dialog("close");  
+								},  
+								"CANCEL": 
+									function() { 
+										$(this).dialog("close"); }
+									} 
+								);
+								$( "#yesCancelDialog" ).dialog('open');
+							
 						}
 						else if (itemId.indexOf("group") > -1){
 							var childCount = document.getElementById(itemId.replace('header','')).children.length;
@@ -193,15 +218,25 @@ include 'dbconnector.php';
 								alert("Warning: This element has children and cannot be deleted");
 							}
 							else{
-								$.post("ajaxcalls.php",
-									{
-										action:"deleteGroup",
-										groupid:groupid
-									},
-									function(data,status){						
-										$( "#"+ itemId ).remove();
-									}	
+								$('#yesCancelDialog').dialog("option", "buttons", { 
+								"Yes": function() { 
+									$.post("ajaxcalls.php",
+										{
+											action:"deleteGroup",
+											groupid:groupid
+										},
+										function(data,status){						
+											$( "#"+ itemId ).remove();
+										}	
+									); 
+									$(this).dialog("close");  
+								},  
+								"CANCEL": 
+									function() { 
+										$(this).dialog("close"); }
+									} 
 								);
+								$( "#yesCancelDialog" ).dialog('open');
 							}
 						}
 						else{
@@ -290,6 +325,22 @@ include 'dbconnector.php';
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+		
+		$("#yesCancelDialog").dialog({
+			dialogClass: "no-close",
+			autoOpen: false, 
+			modal: true,
+			buttons: {
+				"Yes": function() {
+					alert('A yes command is not set');
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					alert('A no command is not set');
 					$( this ).dialog( "close" );
 				}
 			}
