@@ -132,6 +132,7 @@ include 'dbconnector.php';
 				//	{title: "Sub 2", cmd: "sub1"}
 			],
 			beforeOpen: function(event, ui) {
+				event.stopPropagation();
 				itemId = event.currentTarget.id;
 				var id = itemId.replace('group','');
 				groupid = id.split("link")[0];
@@ -151,7 +152,7 @@ include 'dbconnector.php';
 							nameBox.value = "";
 							$( "#linkEditDialog" ).dialog('open');
 						}
-						else if (itemId.indexOf("group") > -1){
+						else if (itemId.indexOf("group") + itemId.indexOf("page") > -2){
 							var nameBox = document.getElementById("groupEditNameBox");
 							nameBox.value = "";
 							$( "#groupEditDialog" ).dialog('open');	
@@ -309,9 +310,15 @@ include 'dbconnector.php';
 			autoOpen: false, 
 			modal: true,
 			buttons: {
-				"Save Changes": function() {
+				"Save": function() {
 					var name = document.getElementById("groupEditNameBox").value;
-					var tabid = document.getElementById(itemId).parentNode.parentNode.id;
+					var tabid = null;
+					if (itemId.indexOf("page") > -1){ //A page was clicked directly
+						tabid = itemId.replace("page","");
+					}
+					else{ //Another accordion elements was clicked
+						tabid = document.getElementById(itemId).parentNode.parentNode.id.replace("page","");
+					}
 					$.post("ajaxcalls.php",
 						{
 							action:"newGroup",
@@ -319,7 +326,7 @@ include 'dbconnector.php';
 							groupname: name
 						},
 						function(data,status){						
-
+							alert('Auto update UI not yet implemented. Please refresh page to see new item.')
 						}	
 					);
 					$( this ).dialog( "close" );
@@ -351,7 +358,7 @@ include 'dbconnector.php';
 			autoOpen: false, 
 			modal: true,
 			buttons: {
-				"Save Changes": function() {
+				"Save": function() {
 					var name = document.getElementById("linkEditNameBox").value;
 					var url = document.getElementById("linkEditUrlBox").value;
 					var img = document.getElementById("linkEditImageBox").value;

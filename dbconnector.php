@@ -85,7 +85,7 @@
 		$result = executeSql($select);
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				echo "<li id=\"tab". $row["TAB_ID"]. "\" class=\"hasmenu\"><a href=\"#".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
+				echo "<li id=\"tab". $row["TAB_ID"]. "\" class=\"hasmenu\"><a href=\"#page".$row["TAB_ID"]. "\" class=\"buttons\"><span class=\"ui-icon ". $row["TAB_ICON"]. "\"></span>". $row["TAB_NAME"]. "</a></li>";
 			}
 		}
 	}
@@ -96,19 +96,19 @@
 		
 		if ($tabs->num_rows > 0) {
 			while($tabrow = $tabs->fetch_assoc()) {
-				echo "<div id=\"". $tabrow["TAB_ID"]. "\">";
+				echo "<div id=\"page". $tabrow["TAB_ID"]. "\" class=\"hasmenu\">";
 				echo "<div class=\"accordion_links\">";
 				
 				$select = "select * from GROUPS where TAB_ID = ". $tabrow["TAB_ID"];
 				$groups = executeSql($select);
-				//todo: Must add if to handle case where no groups.
+				
 				while($grouprow = $groups->fetch_assoc()){
 					echo "<h3 id=\"group". $grouprow["GROUP_ID"]. "header\" class=\"hasmenu\">". $grouprow["GROUP_NAME"]. "</h3>";
 					echo "<div id=\"group". $grouprow["GROUP_ID"]. "\">";
 					
 					$select = "select * from HOTLINKS where GROUP_ID = ". $grouprow["GROUP_ID"];
 					$links = executeSql($select);
-					//todo: Must add if to handle case where no links.
+					
 					while($linksrow = $links->fetch_assoc()){
 						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" title=\"". $linksrow[LINK_TITLE]. "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
