@@ -147,7 +147,7 @@ include 'dbconnector.php';
 							nameBox.value = "";
 							$( "#tabEditDialog" ).dialog('open');	
 						}
-						else if (itemId.indexOf("link") > -1){
+						else if (itemId.indexOf("link") > -1 || (itemId.indexOf("group") > -1) && itemId.indexOf("header") == -1){
 							var nameBox = document.getElementById("linkEditNameBox");
 							nameBox.value = "";
 							$( "#linkEditDialog" ).dialog('open');
@@ -164,7 +164,9 @@ include 'dbconnector.php';
 					case 'delete':
 						if (itemId.indexOf("tab") > -1){
 							var tabid = itemId.replace('tab','');
-							var childCount = document.getElementById(tabid).childNodes[0].childNodes.length;
+							var childCount = 0;
+							if(document.getElementById('page' +tabid).childNodes.length > 0)
+								childCount = document.getElementById('page' +tabid).childNodes[0].childNodes.length;
 							if (childCount > 0){
 								alert("Warning: This tab has sub-elements and cannot be deleted");
 							}
@@ -371,8 +373,11 @@ include 'dbconnector.php';
 						image:img,
 						tooltip: name
 					},
-					function(data,status){						
-						$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
+					function(data,status){
+						if(itemId.indexOf('header') > -1)
+							$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
+						else
+							$("#" +itemId).append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );		
 					}	
 				);
 					$( this ).dialog( "close" );

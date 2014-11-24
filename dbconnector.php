@@ -104,7 +104,7 @@
 				
 				while($grouprow = $groups->fetch_assoc()){
 					echo "<h3 id=\"group". $grouprow["GROUP_ID"]. "header\" class=\"hasmenu\">". $grouprow["GROUP_NAME"]. "</h3>";
-					echo "<div id=\"group". $grouprow["GROUP_ID"]. "\">";
+					echo "<div id=\"group". $grouprow["GROUP_ID"]. "\" class=\"hasmenu\">";
 					
 					$select = "select * from HOTLINKS where GROUP_ID = ". $grouprow["GROUP_ID"];
 					$links = executeSql($select);
