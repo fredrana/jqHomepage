@@ -43,6 +43,13 @@
 				$tooltip = $_POST['tooltip'];
 				editHotlink($groupid,$linkid, $link,$image,$tooltip);
 				break;
+			case 'editGroup' :
+				$tabid = $_POST['tabid'];
+				$groupid = $_POST['groupid'];
+				$groupname = $_POST['groupname'];
+				editGroup($tabid,$groupid,$groupname);
+				break;
+				
 		}
 	}
 ?>

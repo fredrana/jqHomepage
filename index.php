@@ -299,7 +299,7 @@ include 'dbconnector.php';
 						function(data,status){
 							$("#" +itemId).parent().append( "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>" );
 							
-							//Below can be used to insert at a specific location before the clicked tab element.
+							//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
 							//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
 						}	
 					);
@@ -325,16 +325,35 @@ include 'dbconnector.php';
 					else{ //Another accordion elements was clicked
 						tabid = document.getElementById(itemId).parentNode.parentNode.id.replace("page","");
 					}
-					$.post("ajaxcalls.php",
-						{
-							action:"newGroup",
-							tabid:tabid,
-							groupname: name
-						},
-						function(data,status){						
-							alert('Auto update UI not yet implemented. Please refresh page to see new item.')
-						}	
-					);
+					if(mode == 'new'){
+						$.post("ajaxcalls.php",
+							{
+								action:"newGroup",
+								tabid:tabid,
+								groupname: name
+							},
+							function(data,status){						
+								alert('Auto update UI not yet implemented. Please refresh page to see new item.');
+							}	
+						);
+					}
+					else if (mode == 'edit'){
+						$.post("ajaxcalls.php",
+							{
+								action:"editGroup",
+								tabid:tabid,
+								groupid:groupid,
+								groupname: name
+							},
+							function(data,status){						
+								var itemClicked = document.getElementById(itemId);
+								itemClicked.innerText = name;
+							}	
+						);
+					}
+					else{
+						alert('Unsupported group mode set');
+					}
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {
@@ -405,7 +424,7 @@ include 'dbconnector.php';
 						);
 					}
 					else{
-						alert('Unsupported mode set');
+						alert('Unsupported link edit mode set');
 					}
 					$( this ).dialog( "close" );
 				},

@@ -15,6 +15,13 @@
 		}
 	}
 	
+	
+	function editGroup($tabid, $groupid, $groupname){
+		$sql = "update GROUPS set GROUP_NAME = \"". $groupname. "\" where TAB_ID = ".$tabid." and GROUP_ID = " .$groupid;
+		//echo $sql;
+		executeSql($sql);
+	}
+	
 	function editHotlink($groupid, $linkid, $link, $image, $tooltip){
 		$sql = "update HOTLINKS set LINK_PATH = \"". $link. "\", ICON_PATH = \"". $image. "\", LINK_TITLE = \"". $tooltip. "\" where GROUP_ID = ".$groupid." and LINK_ID = " .$linkid;
 		//echo $sql;
