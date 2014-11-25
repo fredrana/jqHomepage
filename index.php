@@ -120,6 +120,7 @@ include 'dbconnector.php';
 		var itemId = '';
 		var groupid = '';
 		var linkid = '';
+		var mode = '';
 		$(document).contextmenu({
 			delegate: ".hasmenu",
 			menu: [
@@ -142,6 +143,7 @@ include 'dbconnector.php';
 			select: function(event, ui) {
 				switch(ui.cmd) {
 					case 'new':
+						mode = 'new';
 						if (itemId.indexOf("tab") > -1){
 							var nameBox = document.getElementById("tabEditNameBox");
 							nameBox.value = "";
@@ -162,6 +164,7 @@ include 'dbconnector.php';
 						}
 						break;
 					case 'delete':
+						mode = 'delete';
 						if (itemId.indexOf("tab") > -1){
 							var tabid = itemId.replace('tab','');
 							var childCount = 0;
@@ -247,6 +250,7 @@ include 'dbconnector.php';
 						}
 						break;
 					case 'edit':
+						mode = 'edit';
 						if (itemId.indexOf("tab") > -1){
 							var itemClicked = document.getElementById(itemId);
 							var nameBox = document.getElementById("tabEditNameBox");
@@ -259,8 +263,8 @@ include 'dbconnector.php';
 							var urlBox = document.getElementById("linkEditUrlBox");
 							var imageBox = document.getElementById("linkEditImageBox");
 							nameBox.value = itemClicked.title;
-							urlBox.value = itemClicked.href;
-							imageBox.value = itemClicked.childNodes[0].src
+							urlBox.value = itemClicked.getAttribute('href');
+							imageBox.value = itemClicked.childNodes[0].getAttribute('src');
 							$( "#linkEditDialog" ).dialog('open');
 						}
 						else if (itemId.indexOf("group") > -1){
@@ -365,21 +369,44 @@ include 'dbconnector.php';
 					var url = document.getElementById("linkEditUrlBox").value;
 					var img = document.getElementById("linkEditImageBox").value;
 				
-					$.post("ajaxcalls.php",
-					{
-						action:"newHotlink",
-						groupid:groupid,
-						link:url,
-						image:img,
-						tooltip: name
-					},
-					function(data,status){
-						if(itemId.indexOf('header') > -1)
-							$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
-						else
-							$("#" +itemId).append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );		
-					}	
-				);
+					if(mode == 'new'){
+						$.post("ajaxcalls.php",
+							{
+								action:"newHotlink",
+								groupid:groupid,
+								link:url,
+								image:img,
+								tooltip: name
+							},
+							function(data,status){
+								if(itemId.indexOf("header") > -1)
+									$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
+								else
+									$("#" +itemId).append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );		
+							}
+						);
+					}
+					else if (mode == 'edit'){
+						$.post("ajaxcalls.php",
+							{
+								action:"editHotlink",
+								groupid:groupid,
+								linkid:linkid,
+								link:url,
+								image:img,
+								tooltip: name
+							},
+							function(data,status){
+								var itemClicked = document.getElementById(itemId);
+								itemClicked.title = name;
+								itemClicked.setAttribute('href', url);
+								itemClicked.childNodes[0].setAttribute('src',img);
+							}
+						);
+					}
+					else{
+						alert('Unsupported mode set');
+					}
 					$( this ).dialog( "close" );
 				},
 				Cancel: function() {

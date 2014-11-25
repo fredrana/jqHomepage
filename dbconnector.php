@@ -15,6 +15,12 @@
 		}
 	}
 	
+	function editHotlink($groupid, $linkid, $link, $image, $tooltip){
+		$sql = "update HOTLINKS set LINK_PATH = \"". $link. "\", ICON_PATH = \"". $image. "\", LINK_TITLE = \"". $tooltip. "\" where GROUP_ID = ".$groupid." and LINK_ID = " .$linkid;
+		//echo $sql;
+		executeSql($sql);
+	}
+	
 	function deleteHotlink($group, $link){
 		executeSql("delete from HOTLINKS where GROUP_ID = ".$group." and LINK_ID = " .$link);
 	}

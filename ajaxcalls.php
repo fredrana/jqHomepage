@@ -35,6 +35,14 @@
 				$tabid = $_POST['tabid'];
 				deleteTab($tabid);
 				break;
+			case 'editHotlink' :
+				$groupid = $_POST['groupid'];
+				$linkid = $_POST['linkid'];
+				$link = $_POST['link'];
+				$image = $_POST['image'];
+				$tooltip = $_POST['tooltip'];
+				editHotlink($groupid,$linkid, $link,$image,$tooltip);
+				break;
 		}
 	}
 ?>
