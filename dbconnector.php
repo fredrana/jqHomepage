@@ -15,6 +15,11 @@
 		}
 	}
 	
+	function editTab($tabid, $tabname){
+		$sql = "update TABS set TAB_NAME = \"". $tabname. "\" where TAB_ID = ".$tabid;
+		//echo $sql;
+		executeSql($sql);
+	}
 	
 	function editGroup($tabid, $groupid, $groupname){
 		$sql = "update GROUPS set GROUP_NAME = \"". $groupname. "\" where TAB_ID = ".$tabid." and GROUP_ID = " .$groupid;
@@ -48,13 +53,18 @@
 	
 	function newGroup($tabid,$groupname){
 		$dbh = getDbConnection();
+
+		//execute the query
+		$stmt = $dbh->prepare("CALL sp_newGroup(?, ?, @groupid)");
+		$stmt->bindParam(1, $tabid, PDO::PARAM_INT); 
+		$stmt->bindParam(2, $groupname, PDO::PARAM_STR);	
+		$stmt->execute();
 		
-		$stmt = $dbh->prepare("CALL sp_newGroup(?, ?)");
-
-		$stmt->bindParam(1, $tabid, PDO::PARAM_STR); 
-		$stmt->bindParam(2, $groupname, PDO::PARAM_STR);
-
-		$stmt->execute();	
+		//get the return value
+		$stmt->closeCursor();
+		$output = $dbh->query("select @groupid")->fetch(PDO::FETCH_ASSOC);
+		echo $output['@groupid'];
+		//var_dump($output);
 	}
 	
 	function getDbConnection(){

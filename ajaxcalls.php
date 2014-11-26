@@ -49,6 +49,11 @@
 				$groupname = $_POST['groupname'];
 				editGroup($tabid,$groupid,$groupname);
 				break;
+			case 'editTab' :
+				$tabid = $_POST['tabid'];
+				$tabname = $_POST['tabname'];
+				editTab($tabid, $tabname);
+				break;
 				
 		}
 	}

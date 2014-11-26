@@ -290,21 +290,47 @@ include 'dbconnector.php';
 			buttons: {
 				"Save Changes": function() {
 					var name = document.getElementById("tabEditNameBox").value;
-					var tabid = itemId.replace('Item','');
-					$.post("ajaxcalls.php",
-						{
-							action:"newTab",
-							tabname: name
-						},
-						function(data,status){
-							$("#" +itemId).parent().append( "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>" );
-							
-							//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
-							//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
-						}	
-					);
+					var tabid = itemId.replace('tab','');
+					if(mode == 'new'){
+						$.post("ajaxcalls.php",
+							{
+								action:"newTab",
+								tabname: name
+							},
+							function(data,status){
+								//var tabs = $("#" +itemId).parent().tabs();
+								//var ul = tabs.find("ul");
+								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>").append
+								
+								$("#" +itemId).parent().append( "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>" );
+								$("#" +itemId).tabs("refresh");
+								
+								//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
+								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
+							}	
+						);
+					}
+					else if (mode == 'edit'){
+						$.post("ajaxcalls.php",
+							{
+								action:"editTab",
+								tabid:tabid,
+								tabname: name
+							},
+							function(data,status){
+								//$('#' +itemId.replace('tab','page')).text(name);innerText innerHTML textContent outerText
+								document.getElementById(itemId).textContent = name;
+								//document.getElementById(itemId).innerText = name;
+								//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
+								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
+							}	
+						);
+					}
+					else{
+						alert('Warning: Unsupported tab mode selected');
+					}
 					$( this ).dialog( "close" );
-				},
+				}, 
 				Cancel: function() {
 					$( this ).dialog( "close" );
 				}
@@ -332,8 +358,12 @@ include 'dbconnector.php';
 								tabid:tabid,
 								groupname: name
 							},
-							function(data,status){						
-								alert('Auto update UI not yet implemented. Please refresh page to see new item.');
+							function(data,status){		
+								var newDiv = "<h3 id=\"group" +data +"header\" class=\"hasmenu\">" +name +"</h3>";
+								newDiv +="<div id=\"group" +data +"\" class=\"hasmenu\">";
+								//var newDiv = '<h3>'+name+'</h3><div></div>';
+								$(document.getElementById("page"+tabid).childNodes[0]).append(newDiv);
+								$(document.getElementById("page"+tabid).childNodes[0]).accordion("refresh");     
 							}	
 						);
 					}
