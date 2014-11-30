@@ -126,6 +126,7 @@
 				$groups = executeSql($select);
 				
 				while($grouprow = $groups->fetch_assoc()){
+					echo "<div class=\"group\">";
 					echo "<h3 id=\"group". $grouprow["GROUP_ID"]. "header\" class=\"hasmenu\">". $grouprow["GROUP_NAME"]. "</h3>";
 					echo "<div id=\"group". $grouprow["GROUP_ID"]. "\" class=\"hasmenu\">";
 					
@@ -136,6 +137,7 @@
 						echo "<a id=\"group". $linksrow[GROUP_ID]. "link". $linksrow[LINK_ID]. "\" class=\"hasmenu\" href=\"". $linksrow[LINK_PATH].  "\" title=\"". $linksrow[LINK_TITLE]. "\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"". $linksrow[ICON_PATH]. "\" alt=\"". $linksrow[ICON_PATH]. "\" /></a>";
 					}
 				
+					echo "</div>";
 					echo "</div>";
 				}
 				

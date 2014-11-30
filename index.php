@@ -19,7 +19,23 @@ include 'dbconnector.php';
     <script type="text/javascript">
 	
     $(function () { 
-        $(".accordion_links").accordion({ heightStyle: 'content', active: 'false', collapsible: 'true' });
+        $(".accordion_links").accordion({ 
+			header: "> div > h3",
+			heightStyle: 'content', 
+			active: 'false', 
+			collapsible: 'true' 
+		}).sortable({
+        axis: "y",
+        handle: "h3",
+        stop: function( event, ui ) {
+          // IE doesn't register the blur when sorting
+          // so trigger focusout handlers to remove .ui-state-focus
+          ui.item.children( "h3" ).triggerHandler( "focusout" );
+ 
+          // Refresh accordion to handle new order
+          $( this ).accordion( "refresh" );
+        }
+		});
     });
 	
 	$(function() {
@@ -349,7 +365,7 @@ include 'dbconnector.php';
 						tabid = itemId.replace("page","");
 					}
 					else{ //Another accordion elements was clicked
-						tabid = document.getElementById(itemId).parentNode.parentNode.id.replace("page","");
+						tabid = document.getElementById(itemId).parentNode.parentNode.parentNode.id.replace("page","");
 					}
 					if(mode == 'new'){
 						$.post("ajaxcalls.php",
@@ -359,9 +375,10 @@ include 'dbconnector.php';
 								groupname: name
 							},
 							function(data,status){		
-								var newDiv = "<h3 id=\"group" +data +"header\" class=\"hasmenu\">" +name +"</h3>";
+								var newDiv = "<div class=\"group\">";
+								newDiv += "<h3 id=\"group" +data +"header\" class=\"hasmenu\">" +name +"</h3>";
 								newDiv +="<div id=\"group" +data +"\" class=\"hasmenu\">";
-								//var newDiv = '<h3>'+name+'</h3><div></div>';
+								newDiv +='</div></div>';
 								$(document.getElementById("page"+tabid).childNodes[0]).append(newDiv);
 								$(document.getElementById("page"+tabid).childNodes[0]).accordion("refresh");     
 							}	
