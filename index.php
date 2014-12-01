@@ -167,7 +167,9 @@ include 'dbconnector.php';
 						}
 						else if (itemId.indexOf("link") > -1 || (itemId.indexOf("group") > -1) && itemId.indexOf("header") == -1){
 							var nameBox = document.getElementById("linkEditNameBox");
-							nameBox.value = "";
+							var urlBox = document.getElementById("linkEditUrlBox");
+							var imageBox = document.getElementById("linkEditImageBox");
+							nameBox.value = imageBox.value = urlBox.value = "";
 							$( "#linkEditDialog" ).dialog('open');
 						}
 						else if (itemId.indexOf("group") + itemId.indexOf("page") > -2){
