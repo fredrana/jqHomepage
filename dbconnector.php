@@ -93,14 +93,19 @@
 	function newHotlink($groupid, $hotlink, $image, $title){
 		$dbh = getDbConnection();
  
-		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?, ?)");
+		$stmt = $dbh->prepare("CALL sp_newHotlink(?, ?, ?, ?, @linkid)");
 
 		$stmt->bindParam(1, $groupid, PDO::PARAM_STR); 
 		$stmt->bindParam(2, $hotlink, PDO::PARAM_STR);
 		$stmt->bindParam(3, $image, PDO::PARAM_STR);
 		$stmt->bindParam(4, $title, PDO::PARAM_STR);
-
+		
 		$stmt->execute();
+		
+		//get the return value
+		$stmt->closeCursor();
+		$output = $dbh->query("select @linkid")->fetch(PDO::FETCH_ASSOC);
+		echo $output['@linkid'];
 	}
 	
 	function generateTabs(){

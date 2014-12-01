@@ -445,10 +445,11 @@ include 'dbconnector.php';
 								tooltip: name
 							},
 							function(data,status){
-								if(itemId.indexOf("header") > -1)
-									$("#" +itemId).parent().append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );
+								var newLink = "<a id=\"group" +groupid +"link" +data +"\" class='hasmenu' href=\"" +url +"\" title=\"" +name +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>";
+								if(itemId.indexOf("link") > -1)
+									$("#" +itemId).parent().append( newLink );
 								else
-									$("#" +itemId).append( "<a href=\"" +url +"\" target=\"_blank\"><img style=\"width:300px; height:150px; float:left; \" src=\"" +img +"\" alt=\"\" /></a>" );		
+									$("#" +itemId).append( newLink );									
 							}
 						);
 					}
