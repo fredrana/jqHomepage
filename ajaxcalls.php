@@ -54,6 +54,10 @@
 				$tabname = $_POST['tabname'];
 				editTab($tabid, $tabname);
 				break;
+			case 'updateGroupOrder' :
+				$groupid = $_POST['groupid'];
+				$grouporder = $_POST['grouporder'];
+				updateGroupOrder($groupid, $grouporder);
 				
 		}
 	}

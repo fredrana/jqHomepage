@@ -21,6 +21,17 @@
 		executeSql($sql);
 	}
 	
+	function updateGroupOrder($groupid, $grouporder){
+		$dbh = getDbConnection();
+		
+		$stmt = $dbh->prepare("CALL sp_updateGroupOrder(?,?)");
+
+		$stmt->bindParam(1, $groupid, PDO::PARAM_STR);
+		$stmt->bindParam(2, $grouporder, PDO::PARAM_STR);		
+
+		$stmt->execute();
+	}
+	
 	function editGroup($tabid, $groupid, $groupname){
 		$sql = "update GROUPS set GROUP_NAME = \"". $groupname. "\" where TAB_ID = ".$tabid." and GROUP_ID = " .$groupid;
 		//echo $sql;
@@ -119,7 +130,7 @@
 	}
 	
 	function generateAccordions(){
-		$select = "SELECT TAB_ID FROM TABS";
+		$select = "SELECT TAB_ID FROM TABS order by TAB_ORDER";
 		$tabs = executeSql($select);
 		
 		if ($tabs->num_rows > 0) {
@@ -127,7 +138,7 @@
 				echo "<div id=\"page". $tabrow["TAB_ID"]. "\" class=\"hasmenu\">";
 				echo "<div class=\"accordion_links\">";
 				
-				$select = "select * from GROUPS where TAB_ID = ". $tabrow["TAB_ID"];
+				$select = "select * from GROUPS where TAB_ID = ". $tabrow["TAB_ID"]. " order by GROUP_ORDER";
 				$groups = executeSql($select);
 				
 				while($grouprow = $groups->fetch_assoc()){
