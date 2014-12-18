@@ -2,7 +2,7 @@
 -- version 3.5.8.1
 -- http://www.phpmyadmin.net
 --
--- Generation Time: Dec 14, 2014 at 08:49 PM
+-- Generation Time: Dec 17, 2014 at 11:47 PM
 -- Server version: 5.5.40-MariaDB-1~wheezy
 -- PHP Version: 5.3.3-7+squeeze15
 
@@ -12,8 +12,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `mystartpage`
 --
-CREATE DATABASE `mystartpage` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `mystartpage`;
 
 DELIMITER $$
 --
@@ -44,12 +42,13 @@ insert into HOTLINKS (GROUP_ID, LINK_ID, LINK_PATH, ICON_PATH, LINK_TITLE) value
 select @newlinkid+1 into linkid;
 END$$
 
-CREATE DEFINER=`mystartpage`@`%` PROCEDURE `sp_newTab`(IN `tabname` VARCHAR(255))
+CREATE DEFINER=`mystartpage`@`%` PROCEDURE `sp_newTab`(IN `tabname` VARCHAR(255), OUT `tabid` INT)
     NO SQL
 BEGIN
 select @maxtabid := IFNULL(max(TAB_ID),1) from TABS;
 select @maxtaborder := IFNULL(max(TAB_ORDER),1) from TABS;
 insert into TABS (TAB_ID,TAB_NAME,TAB_ORDER,TAB_ICON) values (@maxtabid+1,tabname,@maxtaborder+1,'ui-icon-blank');
+select @maxtabid+1 into tabid;
 END$$
 
 CREATE DEFINER=`mystartpage`@`%` PROCEDURE `sp_updateGroupOrder`(IN `groupid` INT(11), IN `grouporder` INT(11))

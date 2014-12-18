@@ -267,7 +267,7 @@ include 'dbconnector.php';
 											groupid:groupid
 										},
 										function(data,status){						
-											$( "#"+ itemId ).remove();
+											$( "#"+ itemId ).parent().remove();
 										}	
 									); 
 									$(this).dialog("close");  
@@ -337,8 +337,11 @@ include 'dbconnector.php';
 								//var ul = tabs.find("ul");
 								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>").append
 								
-								$("#" +itemId).parent().append( "<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>" );
-								$("#" +itemId).tabs("refresh");
+								$("#" +itemId).parent().append( "<li id='tab" +data +"' class='hasmenu'><a href='#page" +data +"' class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>");
+								
+								$("#" +itemId).parent().parent().append("<div id='page" +data +"' class='hasmenu'><div class=\"accordion_links\"></div>");
+								
+								$("#" +itemId).parent().parent().tabs("refresh");
 								
 								//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
 								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
