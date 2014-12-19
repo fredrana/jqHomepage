@@ -105,7 +105,7 @@ include 'dbconnector.php';
 	</div>
 
     <div id="tabs">
- 	    <ul id="tabsList">
+ 	    <ul id="tabsList" class="hasmenu">
 			<?php				
 				generateTabs();
 			?>
@@ -337,14 +337,18 @@ include 'dbconnector.php';
 								//var ul = tabs.find("ul");
 								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>").append
 								
-								$("#" +itemId).parent().append( "<li id='tab" +data +"' class='hasmenu'><a href='#page" +data +"' class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>");
+								var tabList;
+								if (itemId == "tabsList") tabList = $("#" +itemId);
+								else tabList = $("#" +itemId).parent();
 								
-								$("#" +itemId).parent().parent().append("<div id='page" +data +"' class='hasmenu'><div class=\"accordion_links\"></div>");
+								tabList.append( "<li id='tab" +data +"' class='hasmenu'><a href='#page" +data +"' class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>"+name +"</a></li>");
 								
-								$("#" +itemId).parent().parent().tabs("refresh");
+								tabList.parent().append("<div id='page" +data +"' class='hasmenu'><div class=\"accordion_links\"></div>");
+								
+								tabList.parent().tabs("refresh");
 								
 								//todo: the initialization should be synced in one method common to both this and initialalization on accordions from db.
-								$("#" +itemId).parent().accordion({ 
+								tabList.accordion({ 
 									header: "> div > h3",
 									heightStyle: 'content', 
 									active: 'false', 
