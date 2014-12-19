@@ -144,7 +144,7 @@ include 'dbconnector.php';
 						var tabInserted = "<li><a href=\"#" +index +"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>";
 						$(tabInserted).insertBefore(ui.newTab[0]);
 						tabs.tabs('option', 'active', tabs.tabs('option', 'active') -1);
-						tabs.tabs( "refresh" );		
+						tabs.tabs( "refresh" );	
 					}	
 				);
 			}
@@ -343,6 +343,41 @@ include 'dbconnector.php';
 								
 								$("#" +itemId).parent().parent().tabs("refresh");
 								
+								//todo: the initialization should be synced in one method common to both this and initialalization on accordions from db.
+								$("#" +itemId).parent().accordion({ 
+									header: "> div > h3",
+									heightStyle: 'content', 
+									active: 'false', 
+									collapsible: 'true' 
+								}).sortable({
+								axis: "y",
+								handle: "h3",
+								stop: function( event, ui ) {
+									var group = ui.item[0];
+									$(ui.item[0].parentNode.children).each(function(index,element) {
+										if(element == group){
+											$groupid = group.children[1].id.replace('group','');
+											$.post("ajaxcalls.php",
+													{
+														action:"updateGroupOrder",
+														groupid: $groupid,
+														grouporder: index+1
+													},
+													function(data,status){
+
+													}	
+												);
+										}
+									});
+								
+									// IE doesn't register the blur when sorting
+									// so trigger focusout handlers to remove .ui-state-focus
+									ui.item.children( "h3" ).triggerHandler( "focusout" );
+							 
+									// Refresh accordion to handle new order
+									$( this ).accordion( "refresh" );
+								}
+								});
 								//Below .insertBefore can be used to insert at a specific location before the clicked tab element.
 								//$("<li><a href=\"\" class=\"buttons\"><span class=\"ui-icon ui-icon-suitcase\"></span>Bank & Forsikring</a></li>").insertBefore("#"+itemId);
 							}	
